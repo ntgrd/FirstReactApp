@@ -1,0 +1,12 @@
+.message {
+  align-items: flex-end;
+  justify-content: space-between;
+
+}
+
+.message h1 {
+  /* width: 150px;
+  height: 150px; */
+  font-size: 26px;
+}
+
