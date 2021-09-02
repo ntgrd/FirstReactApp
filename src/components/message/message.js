@@ -2,14 +2,11 @@ import React from 'react';
 
 import './message.css';
 
-const Message = ({name, surname, sayHello}) => {
+const Message = ({message}) => {
     
     return (
         <div className="message d-flex">
-            <h1>
-                <span onClick={sayHello}>Hello,</span> 
-                {name} {surname} !
-            </h1>
+            <h1>{message}</h1>
         </div>
     )
 }
