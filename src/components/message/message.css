@@ -1,12 +1,16 @@
 .message {
-  align-items: flex-end;
-  justify-content: space-between;
-
+  align-items: start;
+  /*justify-content: space-between;*/
+  width: 150px;
+  border: 1px solid darkgrey;
+  border-radius: 15px;
+  padding: 5px;
 }
 
-.message h1 {
-  /* width: 150px;
-  height: 150px; */
-  font-size: 26px;
+.message-text {
+  font-size: 20px;
+  color: darkgrey;
+  padding: 5px;
+  display: flex;
 }
 
