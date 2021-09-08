@@ -5,6 +5,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,39 +18,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ChatList = () => {
+const ChatList = ({chats}) => {
     const classes = useStyles();
-    const chats = [
-        {
-            name: 'Girls',
-            id: 0,
-            text: 'Hello world!'
-        },
-        {
-            name: 'Friends',
-            id: 1,
-            text: 'Hello world!'
-        },
-        {
-            name: 'Coworkers',
-            id: 2,
-            text: 'Hello world!'
-        }
-    ];
+
+console.log('iii', chats);
     return (
-        chats.map((chat, id) => (
-            <List key={chat.id} className={classes.root}>
-                <ListItem alignItems="flex-start" divider={true}>
+        <List className={classes.root}>
+            {chats.map((chat) => (
+
+                <ListItem key={chat.id} alignItems="flex-start" divider={true}>
                     <ListItemAvatar>
                         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
                     </ListItemAvatar>
-                    <ListItemText
-                        primary={chat.name}
-                        secondary={chat.text}
-                    />
+                    <Link to={`/chats/${chat.id}`}>{chat.name}</Link>
+                    {/*<ListItemText*/}
+                    {/*    primary={chat.name}*/}
+                    {/*    secondary={chat.text}*/}
+                    {/*/>*/}
                 </ListItem>
+                ))}
             </List>
-        ))
     );
 }
 

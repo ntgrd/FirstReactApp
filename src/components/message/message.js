@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Message = ({message}) => {
+const Message = ({text, id}) => {
     const classes = useStyles();
 
     return (
@@ -30,7 +30,7 @@ const Message = ({message}) => {
                     <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
                 </ListItemAvatar>
                 <ListItemText
-                    primary={message}
+                    primary={text}
                 />
             </ListItem>
         </List>

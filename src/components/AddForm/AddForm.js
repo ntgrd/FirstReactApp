@@ -59,6 +59,7 @@ const AddForm = ({ addMessage }) => {
                 onChange={handleChange}
                 variant="outlined"
                 placeholder="Enter your message"
+                // inputRef={inputRef}
             />
         </form>
     );
