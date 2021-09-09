@@ -6,7 +6,7 @@ import { Profile } from "../Profile";
 import Chats from "../Chats";
 import NoChats from '../NoChats';
 
-export const Routes = ({chats}) => {
+export const Routes = ({chats, setChats}) => {
     console.log('lll', chats);
 
     const theme = createTheme({
@@ -59,8 +59,8 @@ export const Routes = ({chats}) => {
                     <Profile />
                 </Route>
 
-                <Route exact path="/chats/:chatId?">
-                    <Chats chats={chats}/>
+                <Route path="/chats/:chatId?">
+                    <Chats chats={chats} setChats={setChats}/>
                 </Route>
 
                 <Route exact path="/nochat">

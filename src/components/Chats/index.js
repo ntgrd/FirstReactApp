@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {createStyles, createTheme, makeStyles, ThemeProvider} from "@material-ui/core/styles";
-import {useParams, Redirect} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 
 import {AUTHORS} from "../../utils/constants";
 import AddForm from '../AddForm';
@@ -21,7 +21,7 @@ const initialMessages = {
 //     {name: "Friends", id: "chat-2", text: 'Hello world!'},
 // ];
 
-const Chats = ({chats}) => {
+const Chats = ({chats, setChats}) => {
 
     const {chatId} = useParams();
     console.log('mmmm', chats)
@@ -37,6 +37,25 @@ const Chats = ({chats}) => {
         [chatId]
     );
 
+    const addChat = useCallback((chat) => {
+            setChats((prevChats) => ({
+                ...prevChats, [chatId]: [...prevChats[chatId], chat],
+            }));
+        },
+        [chatId, setChats]
+    );
+
+
+    const handleAddChat = useCallback((chatName) => {
+            addChat({
+                chatName,
+                author: AUTHORS.Natalia,
+                id: `mess-${Date.now()}`,
+            });
+        },
+        [addChat]
+    );
+
     useEffect(() => {
         let timer;
         const currentMess = messageList[chatId];
@@ -49,9 +68,9 @@ const Chats = ({chats}) => {
                 });
             }, 1500);
         }
-        ;
+
         return () => clearTimeout(timer);
-    }, [messageList]);
+    }, [messageList, chatId, sendMessage]);
 
     const handleAddMessage = useCallback((text) => {
             sendMessage({
@@ -60,7 +79,7 @@ const Chats = ({chats}) => {
                 id: `mess-${Date.now()}`,
             });
         },
-        [chatId, sendMessage]
+        [sendMessage]
     );
 
     const theme = createTheme({
@@ -86,9 +105,10 @@ const Chats = ({chats}) => {
 
     const classes = useStyles();
     console.log('nnn', chats);
-    if (!chatId || !chats[chatId]) {
-        return <Redirect to="/nochat" />;
-    };
+    if (!chatId) {
+        console.log('rrrr', {chatId, chats});
+        return <Redirect to="/nochat"/>;
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -98,16 +118,14 @@ const Chats = ({chats}) => {
 
             <div className="app">
                 <div>
-                    <ChatList chats={chats}/>
+                    <ChatList chats={chats} addChat={handleAddChat}/>
                 </div>
                 {!!chatId && (
                     <div>
                         <MessageList messages={messageList[chatId]}/>
                         <AddForm addMessage={handleAddMessage}/>
                     </div>
-                )};
-
-
+                )}
             </div>
         </ThemeProvider>
     );
