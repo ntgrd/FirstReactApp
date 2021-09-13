@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {createStyles, createTheme, makeStyles, ThemeProvider} from "@material-ui/core/styles";
 import {Redirect, useParams} from "react-router-dom";
 
 import {AUTHORS} from "../../utils/constants";
@@ -16,18 +15,11 @@ const initialMessages = {
     "chat-2": [],
 };
 
-// const initialChats = [
-//     {name: "Coworkers", id: "chat-1", text: 'Hello world!'},
-//     {name: "Friends", id: "chat-2", text: 'Hello world!'},
-// ];
-
 const Chats = ({chats, setChats}) => {
 
     const {chatId} = useParams();
-    console.log('mmmm', chats)
 
     const [messageList, setMessageList] = useState(initialMessages);
-    // const [chats, setChats] = useState(initialChats);
 
     const sendMessage = useCallback((message) => {
             setMessageList((prevMessages) => ({
@@ -37,23 +29,14 @@ const Chats = ({chats, setChats}) => {
         [chatId]
     );
 
-    const addChat = useCallback((chat) => {
-            setChats((prevChats) => ({
-                ...prevChats, [chatId]: [...prevChats[chatId], chat],
-            }));
-        },
-        [chatId, setChats]
-    );
-
-
-    const handleAddChat = useCallback((chatName) => {
-            addChat({
-                chatName,
+    const handleAddMessage = useCallback((text) => {
+            sendMessage({
+                text,
                 author: AUTHORS.Natalia,
                 id: `mess-${Date.now()}`,
             });
         },
-        [addChat]
+        [sendMessage]
     );
 
     useEffect(() => {
@@ -68,66 +51,44 @@ const Chats = ({chats, setChats}) => {
                 });
             }, 1500);
         }
-
         return () => clearTimeout(timer);
     }, [messageList, chatId, sendMessage]);
 
-    const handleAddMessage = useCallback((text) => {
-            sendMessage({
-                text,
-                author: AUTHORS.Natalia,
-                id: `mess-${Date.now()}`,
-            });
-        },
-        [sendMessage]
-    );
+    const addChat = useCallback((chatName) => {
+        const newChatItem = {
+            name: chatName,
+            id: `mess-${Date.now()}`
+        };
 
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: "#20B2AA",
-            },
-            secondary: {
-                main: "#20B2AA",
-            },
-        },
-        typography: {
-            htmlFontSize: 12
-        },
-        spacing: 4,
-    });
-    const useStyles = makeStyles((theme) => createStyles({
-        root: {
-            backgroundColor: "#20B2AA",
-        },
-        margin: theme.spacing(1, 'auto'),
-    }));
+        setChats((chats) => [...chats, newChatItem]);
+    }, []);
 
-    const classes = useStyles();
-    console.log('nnn', chats);
+    const deleteChat = (chat) => {
+        setChats((chats) => chats.filter(({id}) => id !== chat.id));
+    }
+
     if (!chatId) {
-        console.log('rrrr', {chatId, chats});
         return <Redirect to="/nochat"/>;
     }
 
     return (
-        <ThemeProvider theme={theme}>
-            <header className={classes.root}>
-                <h2>Natalia Kozlova</h2>
+        <>
+            <header>
+                <h2>Chats</h2>
             </header>
 
             <div className="app">
                 <div>
-                    <ChatList chats={chats} addChat={handleAddChat}/>
+                    <ChatList chats={chats} onAdd={addChat} chatId={chatId} onDelete={deleteChat}/>
                 </div>
                 {!!chatId && (
                     <div>
                         <MessageList messages={messageList[chatId]}/>
-                        <AddForm addMessage={handleAddMessage}/>
+                        <AddForm onAdd={handleAddMessage}/>
                     </div>
                 )}
             </div>
-        </ThemeProvider>
+        </>
     );
 }
 

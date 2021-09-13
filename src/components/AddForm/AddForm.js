@@ -1,5 +1,5 @@
-import React, {useState, useRef, useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useEffect, useRef, useState} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {Button} from "@material-ui/core";
 import Icon from '@material-ui/core/Icon';
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AddForm = ({ addMessage }) => {
+const AddForm = ({onAdd, inputPlaceholder, children, addIcon}) => {
     const classes = useStyles();
     const [value, setValue] = useState('');
     const inputRef = useRef(null);
@@ -30,27 +30,28 @@ const AddForm = ({ addMessage }) => {
     }, []);
 
     const handleChange = (event) => {
-            setValue(event.target.value);
+        setValue(event.target.value);
     };
 
-
-    const handleAddMessage = (event) => {
+    const handleAdd = (event) => {
         event.preventDefault();
-        addMessage(value);
+        onAdd(value);
         setValue('');
         inputRef.current.focus();
     };
 
     return (
-        <form onSubmit={handleAddMessage} className={classes.root} noValidate autoComplete="off" ref={inputRef}>
+        <form onSubmit={handleAdd} className={classes.root} noValidate autoComplete="off" ref={inputRef}>
+
             <Button
-                onClick={handleAddMessage}
+                onClick={handleAdd}
                 variant="contained"
                 color="default"
                 className={classes.button}
-                endIcon={<Icon>send</Icon>}
+                endIcon={addIcon || <Icon>send</Icon>}
+
             >
-                Send
+                {children || 'Send'}
             </Button>
             <TextField
                 id="outlined-multiline-flexible"
@@ -58,9 +59,9 @@ const AddForm = ({ addMessage }) => {
                 value={value}
                 onChange={handleChange}
                 variant="outlined"
-                placeholder="Enter your message"
-                // inputRef={inputRef}
-            />
+                placeholder={inputPlaceholder || 'Enter your message'}
+            >
+            </TextField>
         </form>
     );
 };

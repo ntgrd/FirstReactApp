@@ -1,39 +1,15 @@
 import React from "react";
-import {ThemeProvider, createTheme, makeStyles, createStyles} from "@material-ui/core/styles";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import { Home } from "../Home";
-import { Profile } from "../Profile";
+import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
+import {Home} from "../Home";
+import {Profile} from "../Profile";
 import Chats from "../Chats";
 import NoChats from '../NoChats';
 
 export const Routes = ({chats, setChats}) => {
-    console.log('lll', chats);
 
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main:  "#20B2AA",
-            },
-            secondary: {
-                main: "#20B2AA",
-            },
-        },
-        typography: {
-            htmlFontSize: 12
-        },
-        spacing: 4,
-    });
-    const useStyles = makeStyles((theme) => createStyles({
-        root: {
-            backgroundColor: "#20B2AA",
-        },
-        margin: theme.spacing(1, 'auto'),
-    }));
-    const classes = useStyles();
     return (
-          <BrowserRouter>
-            <ThemeProvider theme={theme} >
-            <header className={classes.root}>
+        <BrowserRouter>
+            <header>
                 <ul>
                     <li>
                         <Link to="/profile">Profile</Link>
@@ -52,11 +28,11 @@ export const Routes = ({chats, setChats}) => {
             <Switch>
 
                 <Route exact path="/">
-                    <Home />
+                    <Home/>
                 </Route>
 
                 <Route path="/profile">
-                    <Profile />
+                    <Profile/>
                 </Route>
 
                 <Route path="/chats/:chatId?">
@@ -72,9 +48,8 @@ export const Routes = ({chats, setChats}) => {
                 </Route>
 
 
-
             </Switch>
-            </ThemeProvider>
+
         </BrowserRouter>
     );
 };

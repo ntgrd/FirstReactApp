@@ -1,17 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
+import DeleteIcon from '@material-ui/icons/Delete';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import { Link } from "react-router-dom";
-import {Button} from "@material-ui/core";
+import {Link} from "react-router-dom";
 import Icon from "@material-ui/core/Icon";
-import TextField from "@material-ui/core/TextField";
+
+import AddForm from '../AddForm';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
         width: '100%',
         maxWidth: '36ch',
         backgroundColor: theme.palette.background.paper,
@@ -21,59 +24,40 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ChatList = ({chats, addChat}) => {
+const ChatList = ({chats, onAdd, chatId, onDelete}) => {
     const classes = useStyles();
-    const [value, setValue] = useState('');
 
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
-    const handleAddChat = (event) => {
-        event.preventDefault();
-        addChat(value);
-        setValue('');
-
-    };
-
-console.log('iii', chats);
     return (
-        <List className={classes.root}>
-            {chats.map((chat) => (
+        <div>
+            <List className={classes.root}>
+                {chats.map((chat) => (
 
-                <ListItem key={chat.id} alignItems="flex-start" divider={true}>
-                    <ListItemAvatar>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
-                    </ListItemAvatar>
-                    <Link to={`/chats/${chat.id}`}>{chat.name}
-                    </Link>
-                    {/*<ListItemText*/}
-                    {/*    primary={chat.name}*/}
-                    {/*    secondary={chat.text}*/}
-                    {/*/>*/}
-                </ListItem>
+                    <ListItem key={chat.id} alignItems="flex-start" divider={true}>
+                        <ListItemAvatar>
+                            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
+                        </ListItemAvatar>
+                        <Link to={`/chats/${chat.id}`}>
+
+                            <b style={{color: chat.id === chatId ? "#000000" : "grey"}}>
+                                {chat.name}
+                            </b>
+                        </Link>
+
+                        <button type="button" onClick={() => onDelete(chat)}>
+                            <DeleteIcon/>
+                        </button>
+                    </ListItem>
                 ))}
-            <form onSubmit={handleAddChat} >
-                <Button
-                    onClick={handleAddChat}
-                    variant="contained"
-                    color="default"
-
-                    endIcon={<Icon>add</Icon>}
-                >
-                    Add chat
-                </Button>
-                <TextField
-                    id="outlined-multiline-flexible"
-                    // multiline
-                    value={value}
-                    onChange={handleChange}
-                    variant="outlined"
-                    placeholder="enter new chat name"
-
-                />
-            </form>
             </List>
+            <AddForm
+                onAdd={onAdd}
+                inputPlaceholder="New chat name"
+                addIcon={<Icon>add</Icon>}
+            >
+                Add chat
+            </AddForm>
+        </div>
     );
-}
+};
 
 export default ChatList;
