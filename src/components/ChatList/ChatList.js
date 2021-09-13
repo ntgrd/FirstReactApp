@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+// import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import { Link } from "react-router-dom";
+import {Button} from "@material-ui/core";
+import Icon from "@material-ui/core/Icon";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,39 +21,58 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ChatList = () => {
+const ChatList = ({chats, addChat}) => {
     const classes = useStyles();
-    const chats = [
-        {
-            name: 'Girls',
-            id: 0,
-            text: 'Hello world!'
-        },
-        {
-            name: 'Friends',
-            id: 1,
-            text: 'Hello world!'
-        },
-        {
-            name: 'Coworkers',
-            id: 2,
-            text: 'Hello world!'
-        }
-    ];
+    const [value, setValue] = useState('');
+
+    const handleChange = (event) => {
+        setValue(event.target.value);
+    };
+    const handleAddChat = (event) => {
+        event.preventDefault();
+        addChat(value);
+        setValue('');
+
+    };
+
+console.log('iii', chats);
     return (
-        chats.map((chat, id) => (
-            <List key={chat.id} className={classes.root}>
-                <ListItem alignItems="flex-start" divider={true}>
+        <List className={classes.root}>
+            {chats.map((chat) => (
+
+                <ListItem key={chat.id} alignItems="flex-start" divider={true}>
                     <ListItemAvatar>
                         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
                     </ListItemAvatar>
-                    <ListItemText
-                        primary={chat.name}
-                        secondary={chat.text}
-                    />
+                    <Link to={`/chats/${chat.id}`}>{chat.name}
+                    </Link>
+                    {/*<ListItemText*/}
+                    {/*    primary={chat.name}*/}
+                    {/*    secondary={chat.text}*/}
+                    {/*/>*/}
                 </ListItem>
+                ))}
+            <form onSubmit={handleAddChat} >
+                <Button
+                    onClick={handleAddChat}
+                    variant="contained"
+                    color="default"
+
+                    endIcon={<Icon>add</Icon>}
+                >
+                    Add chat
+                </Button>
+                <TextField
+                    id="outlined-multiline-flexible"
+                    // multiline
+                    value={value}
+                    onChange={handleChange}
+                    variant="outlined"
+                    placeholder="enter new chat name"
+
+                />
+            </form>
             </List>
-        ))
     );
 }
 
