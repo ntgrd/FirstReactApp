@@ -1,12 +1,51 @@
+import React, {useCallback, useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+
+import {selectProfileName} from "../../store/profile/selectors";
+import {selectMessages} from "../../store/messageList/selectors";
+import {addMessage} from "../../store/messageList/actions";
+import AddForm from "../AddForm";
 import Message from '../message';
-import React from 'react';
+import {AUTHORS} from "../../utils/constants";
 
-const MessageList = ({ messages }) => (
-    <>
-        {messages.map((message) => (
-            <Message key={message.id} text={message.text} id={message.id}/>
-        ))}
-    </>
-);
+const MessageList = ({chatId}) => {
+    const profileName = useSelector(selectProfileName);
+    const messages = useSelector(selectMessages);
 
+    const dispatch = useDispatch();
+
+    const sendMessage = useCallback((text, author) => {
+            dispatch(addMessage(chatId, text, author))
+        },
+        [chatId, dispatch]
+    );
+
+    const handleAddMessage = useCallback((text) => {
+            sendMessage(text, AUTHORS.Natalia);
+        },
+        [sendMessage]
+    );
+
+    useEffect(() => {
+        let timer;
+        const currentMess = messages[chatId];
+        if (!!chatId && currentMess?.[currentMess.length - 1]?.author === AUTHORS.Natalia) {
+            timer = setTimeout(() => {
+                sendMessage('I am bot', AUTHORS.bot);
+            }, 1500);
+        }
+        return () => clearTimeout(timer);
+    }, [messages, chatId, sendMessage]);
+
+    return (
+        <>
+            {(messages[chatId] || []).map((message) => (
+                <Message key={message.id} text={message.text} id={message.id}
+                         messageAuthor={message.author === AUTHORS.Natalia ? profileName : message.author}
+                />
+            ))}
+            <AddForm onAdd={handleAddMessage}/>
+        </>
+    )
+}
 export default MessageList;

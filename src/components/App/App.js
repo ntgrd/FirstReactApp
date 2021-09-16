@@ -1,21 +1,20 @@
-import {useState} from "react";
-import {ThemeProvider, createTheme, makeStyles, createStyles} from "@material-ui/core/styles";
-import { Provider } from "react-redux";
-import { store} from "../../store";
+import {createStyles, createTheme, makeStyles, ThemeProvider} from "@material-ui/core/styles";
+import {Provider} from "react-redux";
+import {store} from "../../store";
 import {Routes} from "../Routes";
 import './App.css';
 
-const initialChats = [
-    {name: "Coworkers", id: "chat-1", text: 'Hello world!'},
-    {name: "Friends", id: "chat-2", text: 'Hello world!'},
-];
+// const initialChats = [
+//     {name: "Coworkers", id: "chat-1", text: 'Hello world!'},
+//     {name: "Friends", id: "chat-2", text: 'Hello world!'},
+// ];
 
 function App() {
-    const [chats, setChats] = useState(initialChats);
+    // const [chats, setChats] = useState(initialChats);
     const theme = createTheme({
         palette: {
             primary: {
-                main:  "#20B2AA",
+                main: "#20B2AA",
             },
             secondary: {
                 main: "#20B2AA",
@@ -36,15 +35,18 @@ function App() {
     const classes = useStyles();
 
     return (
-        <ThemeProvider theme={theme} >
-            <header className={classes.root}>
-                <h3>Hi!</h3>
-            </header>
         <Provider store={store}>
-            <Routes chats={chats} setChats={setChats}/>
-        </Provider>
 
-        </ThemeProvider>
+            <ThemeProvider theme={theme}>
+                <header className={classes.root}>
+                    <h3>Hi!</h3>
+                </header>
+
+                <Routes/>
+
+
+            </ThemeProvider>
+        </Provider>
     );
 }
 

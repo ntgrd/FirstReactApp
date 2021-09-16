@@ -1,6 +1,6 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Message = ({text, id}) => {
+const Message = ({text, messageAuthor}) => {
     const classes = useStyles();
 
     return (
@@ -30,8 +30,11 @@ const Message = ({text, id}) => {
                     <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
                 </ListItemAvatar>
                 <ListItemText
+
                     primary={text}
+
                 />
+                {messageAuthor}
             </ListItem>
         </List>
     )

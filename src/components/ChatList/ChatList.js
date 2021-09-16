@@ -1,56 +1,28 @@
-import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import {Link} from "react-router-dom";
+import React, {useCallback} from 'react';
 import Icon from "@material-ui/core/Icon";
+import {useDispatch, useSelector} from "react-redux";
 
 import AddForm from '../AddForm';
+import {ChatItem} from "../ChatItem";
+import {selectChats} from "../../store/chats/selectors";
+import {addChat} from "../../store/chats/actions";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-        width: '100%',
-        maxWidth: '36ch',
-        backgroundColor: theme.palette.background.paper,
-    },
-    inline: {
-        display: 'inline',
-    },
-}));
+const ChatList = ({chatId}) => {
 
-const ChatList = ({chats, onAdd, chatId, onDelete}) => {
-    const classes = useStyles();
+    const chats = useSelector(selectChats);
+    const dispatch = useDispatch();
+
+    const handleAddChat = useCallback((chatName) => dispatch(addChat(chatName)), [dispatch]);
 
     return (
         <div>
-            <List className={classes.root}>
-                {chats.map((chat) => (
 
-                    <ListItem key={chat.id} alignItems="flex-start" divider={true}>
-                        <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
-                        </ListItemAvatar>
-                        <Link to={`/chats/${chat.id}`}>
+            {chats.map((chat) => (
+                <ChatItem chat={chat} key={chat.id} current={chat.id === chatId}/>
+            ))}
 
-                            <b style={{color: chat.id === chatId ? "#000000" : "grey"}}>
-                                {chat.name}
-                            </b>
-                        </Link>
-
-                        <button type="button" onClick={() => onDelete(chat)}>
-                            <DeleteIcon/>
-                        </button>
-                    </ListItem>
-                ))}
-            </List>
             <AddForm
-                onAdd={onAdd}
+                onAdd={handleAddChat}
                 inputPlaceholder="New chat name"
                 addIcon={<Icon>add</Icon>}
             >
