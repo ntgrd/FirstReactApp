@@ -1,17 +1,29 @@
 import {useDispatch, useSelector} from "react-redux";
-import {useCallback} from "react";
+import {useCallback, useState} from "react";
 import Checkbox from '@material-ui/core/Checkbox';
 
-import {toggleShowName} from "../../store/profile/actions";
+import {changeName, toggleShowName} from "../../store/profile/actions";
+import {selectProfileName, selectProfileShowName} from "../../store/profile/selectors";
 
 
 export const Profile = () => {
-    const {showName, name} = useSelector((state) => state);
+    const name = useSelector(selectProfileName);
+    const showName = useSelector(selectProfileShowName);
     const dispatch = useDispatch();
+    const [value, setValue] = useState('');
 
     const setShowName = useCallback(() => {
         dispatch(toggleShowName);
     }, [dispatch]);
+
+    const handleChange = useCallback((e) => {
+        setValue(e.target.value);
+    }, []);
+
+    const setName = useCallback(() => {
+        dispatch(changeName(value))
+        setValue('')
+    }, [dispatch, value]);
 
     return (
         <div>
@@ -26,6 +38,13 @@ export const Profile = () => {
                 onChange={setShowName}
             />
             <span>Show Name</span>
+            <div>
+                <input type="text" value={value} onChange={handleChange}/>
+            </div>
+            <div>
+                <button onClick={setName}>Change Name</button>
+            </div>
+
         </div>
     )
 };

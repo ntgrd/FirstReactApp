@@ -1,8 +1,10 @@
 .app {
-  margin: 0 auto;
+  /*margin: 0 auto;*/
   /*max-width: 800px;*/
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-right: 150px;
+  margin-left: 100px;
 
 }
 .bottom-panel {
