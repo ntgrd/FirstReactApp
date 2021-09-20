@@ -1,7 +1,7 @@
 import React from "react";
 import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
 import {Home} from "../Home";
-import {Profile} from "../Profile";
+import {ProfileContainer} from "../Profile/ProfileContainer";
 import Chats from "../Chats";
 import NoChats from '../NoChats';
 
@@ -32,7 +32,7 @@ export const Routes = ({chats, setChats}) => {
                 </Route>
 
                 <Route path="/profile">
-                    <Profile/>
+                    <ProfileContainer/>
                 </Route>
 
                 <Route path="/chats/:chatId?">

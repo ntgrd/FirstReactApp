@@ -1,3 +1,5 @@
+import {AUTHORS} from "../../utils/constants";
+
 export const ADD_MESSAGE = "MESSAGES::ADD_MESSAGE";
 export const DELETE_MESSAGE = "MESSAGES::DELETE_MESSAGE";
 
@@ -17,3 +19,14 @@ export const deleteMessage = (chatId, id) => ({
         id,
     },
 });
+
+let timer;
+export const addMessageWithReply = (chatId, text, author) => (dispatch) => {
+    dispatch(addMessage(chatId, text, author));
+    if (author === AUTHORS.Natalia) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            dispatch(addMessage(chatId, 'I am bot', AUTHORS.bot));
+        }, 1500);
+    }
+};

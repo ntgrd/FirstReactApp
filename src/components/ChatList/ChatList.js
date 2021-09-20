@@ -3,7 +3,7 @@ import Icon from "@material-ui/core/Icon";
 import {useDispatch, useSelector} from "react-redux";
 
 import AddForm from '../AddForm';
-import {ChatItem} from "../ChatItem";
+import {ChatItemContainer} from "../ChatItem/ChatsItemContaner";
 import {selectChats} from "../../store/chats/selectors";
 import {addChat} from "../../store/chats/actions";
 
@@ -16,11 +16,9 @@ const ChatList = ({chatId}) => {
 
     return (
         <div>
-
             {chats.map((chat) => (
-                <ChatItem chat={chat} key={chat.id} current={chat.id === chatId}/>
+                <ChatItemContainer chat={chat} key={chat.id} current={chat.id === chatId}/>
             ))}
-
             <AddForm
                 onAdd={handleAddChat}
                 inputPlaceholder="New chat name"
