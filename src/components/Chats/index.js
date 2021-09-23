@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {useParams} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import MessageList from '../MessageList';
 import ChatList from '../ChatList';
@@ -10,11 +10,12 @@ const Chats = (props) => {
 
     const selectChatExists = useMemo(() => selectIfChatExists(chatId), [chatId]);
 
-    const chatExists = useSelector(selectChatExists);
+    const chatExists = useSelector(selectChatExists)
 
-    // if (!chats[chatId]) {
-    //     return <Redirect to="/nochat"/>;
-    // };
+    if (!chatExists) {
+        return <Redirect to="/nochat" />;
+    }
+
 
     return (
         <>
