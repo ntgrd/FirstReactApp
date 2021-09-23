@@ -1,4 +1,5 @@
 import Checkbox from '@material-ui/core/Checkbox';
+import './Profile.css'
 
 export const ProfilePres = ({name, showName, setShowName, setName, onChange, value}) => {
 
@@ -7,6 +8,7 @@ export const ProfilePres = ({name, showName, setShowName, setName, onChange, val
             <h2>Profile:
                 {showName && <div>{name}</div>}
             </h2>
+            <div className="profile">
             <Checkbox
                 color="primary"
                 inputProps={{'aria-label': 'checkbox with default color'}}
@@ -21,7 +23,7 @@ export const ProfilePres = ({name, showName, setShowName, setName, onChange, val
             <div>
                 <button onClick={setName}>Change Name</button>
             </div>
-
+            </div>
         </div>
     )
 };
