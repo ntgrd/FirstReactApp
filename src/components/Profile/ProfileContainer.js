@@ -5,7 +5,6 @@ import {changeName, toggleShowName} from "../../store/profile/actions";
 import {selectProfileName, selectProfileShowName} from "../../store/profile/selectors";
 import {ProfilePres} from "./ProfilePres";
 
-
 export const ProfileContainer = () => {
     const name = useSelector(selectProfileName);
     const showName = useSelector(selectProfileShowName);

@@ -5,7 +5,7 @@ import MessageList from '../MessageList';
 import ChatList from '../ChatList';
 import {selectIfChatExists} from "../../store/chats/selectors";
 
-const Chats = (props) => {
+const Chats = () => {
     const {chatId} = useParams();
 
     const selectChatExists = useMemo(() => selectIfChatExists(chatId), [chatId]);

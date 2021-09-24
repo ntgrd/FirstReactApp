@@ -4,6 +4,8 @@ import {Home} from "../Home";
 import {ProfileContainer} from "../Profile/ProfileContainer";
 import Chats from "../Chats";
 import NoChats from '../NoChats';
+import {News} from "../News";
+import {Weather} from "../Weather";
 
 export const Routes = ({chats, setChats}) => {
 
@@ -21,6 +23,14 @@ export const Routes = ({chats, setChats}) => {
 
                     <li>
                         <Link to="/">Home</Link>
+                    </li>
+
+                    <li>
+                        <Link to="/news">News</Link>
+                    </li>
+
+                    <li>
+                        <Link to="/weather">Weather</Link>
                     </li>
                 </ul>
             </header>
@@ -43,11 +53,17 @@ export const Routes = ({chats, setChats}) => {
                     <NoChats chats={chats}/>
                 </Route>
 
+                <Route path="/news">
+                    <News/>
+                </Route>
+
+                <Route path="/weather">
+                    <Weather/>
+                </Route>
+
                 <Route>
                     <h3>Page not found</h3>
                 </Route>
-
-
             </Switch>
 
         </BrowserRouter>
