@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
 import {Home} from "../Home";
 import {ProfileContainer} from "../Profile/ProfileContainer";
@@ -6,13 +6,40 @@ import Chats from "../Chats";
 import NoChats from '../NoChats';
 import {News} from "../News";
 import {Weather} from "../Weather";
+import {Login} from "../Login";
+import {SignUp} from "../SignUp";
+import PublicRoute from "../../hocs/PublicRoute";
+import PrivateRoute from "../../hocs/PrivateRoute";
+import {onAuthStateChanged} from "firebase/auth";
+import {auth} from "../../services/firebase";
 
 export const Routes = ({chats, setChats}) => {
+    const [authed, setAuthed] = useState(false);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setAuthed(true);
+            } else {
+                setAuthed(false);
+            }
+        });
+
+        return unsubscribe;
+    }, []);
 
     return (
         <BrowserRouter>
             <header>
                 <ul>
+                    <li>
+                        <Link to="/signup">Registration</Link>
+                    </li>
+
+                    <li>
+                        <Link to="/login">Login</Link>
+                    </li>
+
                     <li>
                         <Link to="/profile">Profile</Link>
                     </li>
@@ -37,29 +64,37 @@ export const Routes = ({chats, setChats}) => {
 
             <Switch>
 
-                <Route exact path="/">
+                <PublicRoute authenticated={authed} exact path="/">
                     <Home/>
-                </Route>
+                </PublicRoute>
 
-                <Route path="/profile">
+                <PublicRoute authenticated={authed} path="/login">
+                    <Login/>
+                </PublicRoute>
+
+                <PublicRoute authenticated={authed} path="/signup">
+                    <SignUp/>
+                </PublicRoute>
+
+                <PrivateRoute authenticated={authed} path="/profile">
                     <ProfileContainer/>
-                </Route>
+                </PrivateRoute>
 
-                <Route path="/chats/:chatId?">
+                <PrivateRoute authenticated={authed} path="/chats/:chatId?">
                     <Chats chats={chats} setChats={setChats}/>
-                </Route>
+                </PrivateRoute>
 
-                <Route exact path="/nochat">
+                <PrivateRoute authenticated={authed} exact path="/nochat">
                     <NoChats chats={chats}/>
-                </Route>
+                </PrivateRoute>
 
-                <Route path="/news">
+                <PublicRoute authenticated={authed} path="/news">
                     <News/>
-                </Route>
+                </PublicRoute>
 
-                <Route path="/weather">
+                <PublicRoute authenticated={authed} path="/weather">
                     <Weather/>
-                </Route>
+                </PublicRoute>
 
                 <Route>
                     <h3>Page not found</h3>
