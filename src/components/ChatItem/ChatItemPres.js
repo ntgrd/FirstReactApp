@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const ChatItemPres = ({id, chatName, author, onDelete, current}) => {
+export const ChatItemPres = ({id, chatName, onDelete, current}) => {
     const classes = useStyles();
 
     return (

@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {selectProfileName} from "../../store/profile/selectors";
 import {selectMessages} from "../../store/messageList/selectors";
-import {addMessage, addMessageWithReply} from "../../store/messageList/actions";
+import {addMessageWithReply, initMessages} from "../../store/messageList/actions";
 import AddForm from "../AddForm";
 import Message from '../message';
 import {AUTHORS} from "../../utils/constants";
@@ -14,8 +14,12 @@ const MessageList = ({chatId}) => {
 
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(initMessages());
+    }, []);
+
     const sendMessage = useCallback((text, author) => {
-            dispatch(addMessageWithReply(chatId, text, author))
+            dispatch(addMessageWithReply(text, author, chatId))
         },
         [chatId, dispatch]
     );
@@ -36,10 +40,11 @@ const MessageList = ({chatId}) => {
     //     }
     //     return () => clearTimeout(timer);
     // }, [messages, chatId, sendMessage]);
+    console.log('mes', messages[chatId])
 
     return (
         <>
-            {(messages[chatId] || []).map((message) => (
+            {(Object.values(messages[chatId] || {}) || []).map((message) => (
                 <Message key={message.id} text={message.text} id={message.id}
                          messageAuthor={message.author === AUTHORS.Natalia ? profileName : message.author}
                 />
