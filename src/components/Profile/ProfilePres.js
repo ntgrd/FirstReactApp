@@ -1,7 +1,7 @@
-// import Checkbox from '@material-ui/core/Checkbox';
+import Checkbox from '@material-ui/core/Checkbox';
 import './Profile.css'
 
-export const ProfilePres = ({name, onLogout, onSubmit, onChange, value}) => {
+export const ProfilePres = ({name, onLogout, onSubmit, onChange, value, showName, setShowName}) => {
 
     return (
         <div>
@@ -9,14 +9,14 @@ export const ProfilePres = ({name, onLogout, onSubmit, onChange, value}) => {
                 <div>{name}</div>
             </h2>
             <div className="profile">
-                {/*<Checkbox*/}
-                {/*    color="primary"*/}
-                {/*    inputProps={{'aria-label': 'checkbox with default color'}}*/}
-                {/*    checked={showName}*/}
-                {/*    value={showName}*/}
-                {/*    onChange={setShowName}*/}
-                {/*/>*/}
-                {/*<span>Show Name</span>*/}
+                <Checkbox
+                    color="primary"
+                    inputProps={{'aria-label': 'checkbox with default color'}}
+                    checked={showName}
+                    value={showName}
+                    onChange={setShowName}
+                />
+                <span>Show Name</span>
                 <form onSubmit={onSubmit}>
                     <input type="text" value={value} onChange={onChange}/>
                     <button type="submit">Change Name</button>

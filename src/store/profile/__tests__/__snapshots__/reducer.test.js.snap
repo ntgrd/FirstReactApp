@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`profileReducer returns correct state after SET_NAME action 1`] = `
+Object {
+  "name": "new name",
+  "showName": false,
+}
+`;
