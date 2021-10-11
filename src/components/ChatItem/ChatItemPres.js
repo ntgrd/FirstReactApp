@@ -27,13 +27,13 @@ export const ChatItemPres = ({id, chatName, onDelete, current}) => {
         <List className={classes.root}>
             <ListItem className='chat_item' key={id} alignItems="flex-start" divider={true}>
                 <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
+                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" data-testid="avatar"/>
                 </ListItemAvatar>
-                <Link to={`/chats/${id}`}>
-                    <b style={{color: current ? '#000000' : 'grey'}}>
-                        <h3>{chatName}</h3>
-                    </b>
-                </Link>
+                {/*<Link to={`/chats/${id}`}>*/}
+                {/*    <b style={{color: current ? '#000000' : 'grey'}}>*/}
+                {/*        <h3>{chatName}</h3>*/}
+                {/*    </b>*/}
+                {/*</Link>*/}
                 <IconButton aria-label="delete" onClick={() => onDelete(id)}>
                     <DeleteIcon/>
                 </IconButton>
